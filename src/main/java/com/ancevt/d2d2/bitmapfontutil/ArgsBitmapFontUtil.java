@@ -65,6 +65,6 @@ public class ArgsBitmapFontUtil {
     @ArgsParameter(names = "--fractional-metrics-on")
     private boolean fractionalMetricsOn;
 
-    @ArgsParameter(names = {"--gui", "-g"})
-    private boolean guiMode;
+    @ArgsParameter(names = {"--stay-on-screen", "-S"})
+    private boolean stayOnScreen;
 }

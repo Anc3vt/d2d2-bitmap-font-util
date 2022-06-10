@@ -17,6 +17,8 @@
  */
 package com.ancevt.d2d2.bitmapfontutil;
 
+import lombok.SneakyThrows;
+
 import javax.swing.JPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -29,6 +31,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiConsumer;
 
 public class Canvas extends JPanel {
@@ -52,6 +55,7 @@ public class Canvas extends JPanel {
         setPreferredSize(new Dimension(argsBitmapFontUtil.getWidth(), argsBitmapFontUtil.getHeight()));
     }
 
+    @SneakyThrows
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -96,7 +100,7 @@ public class Canvas extends JPanel {
 
         g2.setColor(Color.WHITE);
 
-        charInfos = new ArrayList<>();
+        charInfos = new CopyOnWriteArrayList<>();
 
         int x = 0, y = font.getSize();
 
@@ -142,6 +146,12 @@ public class Canvas extends JPanel {
         if(argsBitmapFontUtil.getWidth() == 0 && argsBitmapFontUtil.getHeight() == 0) {
             if (getWidth() != maxX || getHeight() != maxY) {
                 setSize(new Dimension(maxX, maxY));
+                Thread.sleep(500);
+            } else {
+                if(!argsBitmapFontUtil.isStayOnScreen()) {
+                    writeFunction.accept(charInfos, bufferedImage);
+                    System.exit(0);
+                }
             }
         }
 

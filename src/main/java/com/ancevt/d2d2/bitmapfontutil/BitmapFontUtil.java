@@ -56,9 +56,7 @@ public class BitmapFontUtil extends JFrame {
         frame.setPreferredSize(new Dimension(512, 512));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        if (argsBitmapFontUtil.isGuiMode()) {
-            frame.setVisible(true);
-        }
+        frame.setVisible(true);
         frame.pack();
 
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -68,12 +66,7 @@ public class BitmapFontUtil extends JFrame {
         ge.registerFont(font);
 
         String string =
-                " !\"#№$%&'()*+,-./\\0123456789:;<=>@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmno" +
-                        "pqrstuvwxyz[]_{}АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮ" +
-                        "Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя?^~`" +
-                        "ҐґЇїЎў";
-
-        System.out.println(string.length() * 2);
+                " !\"#№$%&'()*+,-./\\0123456789:;<=>@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz[]_{}АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя?^~`ҐґЇїЎў";
 
         boolean bold = argsBitmapFontUtil.isBold();
         boolean italic = argsBitmapFontUtil.isItalic();
@@ -84,13 +77,16 @@ public class BitmapFontUtil extends JFrame {
 
         frame.getCanvas().draw(string, font, BitmapFontUtil::write);
 
-        if (!argsBitmapFontUtil.isGuiMode()) {
+        if (argsBitmapFontUtil.getWidth() != 0 && argsBitmapFontUtil.getHeight() != 0 && !argsBitmapFontUtil.isStayOnScreen()) {
             System.exit(0);
         }
     }
 
     @SneakyThrows
     private static void write(List<CharInfo> charInfos, BufferedImage bufferedImage) {
+
+        System.out.println(charInfos.size() + " " + bufferedImage);
+
         StringBuilder stringBuilder = new StringBuilder();
         charInfos.forEach(charInfo -> {
             stringBuilder.append(charInfo.character);
