@@ -18,20 +18,24 @@
 package com.ancevt.d2d2.bitmapfontutil;
 
 import com.ancevt.util.args.Args;
+import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 public class BitmapFontUtil extends JFrame {
 
+    private static ArgsBitmapFontUtil argsBitmapFontUtil;
     private final Canvas canvas;
 
     public BitmapFontUtil(ArgsBitmapFontUtil argsBitmapFontUtil) {
@@ -44,13 +48,13 @@ public class BitmapFontUtil extends JFrame {
     }
 
     public static void main(String[] args) throws IOException, FontFormatException {
-        ArgsBitmapFontUtil argsBitmapFontUtil = Args.of(args).convert(ArgsBitmapFontUtil.class);
+        argsBitmapFontUtil = Args.of(args).convert(ArgsBitmapFontUtil.class);
 
         BitmapFontUtil frame = new BitmapFontUtil(argsBitmapFontUtil);
         frame.setLocationByPlatform(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        if(argsBitmapFontUtil.isGuiMode()) {
+        if (argsBitmapFontUtil.isGuiMode()) {
             frame.setVisible(true);
         }
         frame.pack();
@@ -75,10 +79,23 @@ public class BitmapFontUtil extends JFrame {
 
         font = new Font(fontName, fontStyle, fontSize);
 
-        frame.getCanvas().draw(string, font, argsBitmapFontUtil.getWidth(), argsBitmapFontUtil.getHeight());
+        frame.getCanvas().draw(
+                string,
+                font,
+                argsBitmapFontUtil.getWidth(),
+                argsBitmapFontUtil.getHeight(),
+                BitmapFontUtil::write
+        );
 
+        if (!argsBitmapFontUtil.isGuiMode()) {
+            System.exit(0);
+        }
+    }
+
+    @SneakyThrows
+    private static void write(List<CharInfo> charInfos, BufferedImage bufferedImage) {
         StringBuilder stringBuilder = new StringBuilder();
-        frame.getCanvas().getCharInfos().forEach(charInfo -> {
+        charInfos.forEach(charInfo -> {
             stringBuilder.append(charInfo.character);
             stringBuilder.append(' ');
             stringBuilder.append(charInfo.x);
@@ -98,10 +115,6 @@ public class BitmapFontUtil extends JFrame {
                 StandardOpenOption.TRUNCATE_EXISTING
         );
 
-        ImageIO.write(frame.getCanvas().getBufferedImage(), "png", Path.of(argsBitmapFontUtil.getOutput() + ".png").toFile());
-
-        if (!argsBitmapFontUtil.isGuiMode()) {
-            System.exit(0);
-        }
+        ImageIO.write(bufferedImage, "png", Path.of(argsBitmapFontUtil.getOutput() + ".png").toFile());
     }
 }

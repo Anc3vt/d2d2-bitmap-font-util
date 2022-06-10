@@ -29,11 +29,13 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class Canvas extends JPanel {
 
     private String string;
     private Font font;
+    private BiConsumer<List<CharInfo>, BufferedImage> writeFunction;
     private List<CharInfo> charInfos;
     private BufferedImage bufferedImage;
     private final ArgsBitmapFontUtil argsBitmapFontUtil;
@@ -127,6 +129,8 @@ public class Canvas extends JPanel {
                 x = 0;
             }
         }
+
+        writeFunction.accept(charInfos, bufferedImage);
     }
 
     public List<CharInfo> getCharInfos() {
@@ -137,11 +141,11 @@ public class Canvas extends JPanel {
         return bufferedImage;
     }
 
-    public List<CharInfo> draw(String string, Font font, int atlasWidth, int atlasHeight) {
+    public void draw(String string, Font font, int atlasWidth, int atlasHeight, BiConsumer<List<CharInfo>, BufferedImage> writeFunction) {
         this.string = string;
         this.font = font;
+        this.writeFunction = writeFunction;
         setSize(atlasWidth, atlasHeight);
         paintComponent(getGraphics());
-        return charInfos;
     }
 }
