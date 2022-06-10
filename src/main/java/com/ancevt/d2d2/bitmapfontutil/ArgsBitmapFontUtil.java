@@ -24,10 +24,10 @@ import lombok.Data;
 public class ArgsBitmapFontUtil {
 
     @ArgsParameter(names = {"--width", "-w"})
-    private int width = 512;
+    private int width = 0;
 
     @ArgsParameter(names = {"--height", "-h"})
-    private int height = 256;
+    private int height = 0;
 
     @ArgsParameter(names = {"--input", "-i"}, required = true)
     private String input;

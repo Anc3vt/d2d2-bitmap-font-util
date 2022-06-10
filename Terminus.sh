@@ -13,7 +13,7 @@ do
         --output fonts/terminus/Terminus-$size-Bold \
         --width $atlasWidth \
         --height $atlasHeight \
-        --size $size
+        --size $size \
         --gui
 done
 
@@ -24,7 +24,7 @@ do
         --output fonts/terminus/Terminus-$size \
         --width $atlasWidth \
         --height $atlasHeight \
-        --size $size
+        --size $size \
         --gui
 done
 

@@ -33,12 +33,17 @@ import java.util.function.BiConsumer;
 
 public class Canvas extends JPanel {
 
+    private static final int DEFAULT_WIDTH = 1024;
+    private static final int DEFAULT_HEIGHT = 1024;
+
     private String string;
     private Font font;
     private BiConsumer<List<CharInfo>, BufferedImage> writeFunction;
     private List<CharInfo> charInfos;
     private BufferedImage bufferedImage;
     private final ArgsBitmapFontUtil argsBitmapFontUtil;
+    private int maxX;
+    private int maxY;
 
     public Canvas(ArgsBitmapFontUtil argsBitmapFontUtil) {
         this.argsBitmapFontUtil = argsBitmapFontUtil;
@@ -124,9 +129,19 @@ public class Canvas extends JPanel {
             charInfos.add(charInfo);
 
             x += width;
+
+            if (x > maxX) maxX = x;
+
             if (x >= getWidth() - font.getSize()) {
                 y += height;
+                if (y > maxY) maxY = y + 5;
                 x = 0;
+            }
+        }
+
+        if(argsBitmapFontUtil.getWidth() == 0 && argsBitmapFontUtil.getHeight() == 0) {
+            if (getWidth() != maxX || getHeight() != maxY) {
+                setSize(new Dimension(maxX, maxY));
             }
         }
 
@@ -141,11 +156,13 @@ public class Canvas extends JPanel {
         return bufferedImage;
     }
 
-    public void draw(String string, Font font, int atlasWidth, int atlasHeight, BiConsumer<List<CharInfo>, BufferedImage> writeFunction) {
+    public void draw(String string, Font font, BiConsumer<List<CharInfo>, BufferedImage> writeFunction) {
         this.string = string;
         this.font = font;
         this.writeFunction = writeFunction;
-        setSize(atlasWidth, atlasHeight);
+        if (argsBitmapFontUtil.getWidth() != 0 && argsBitmapFontUtil.getHeight() != 0) {
+            setSize(argsBitmapFontUtil.getWidth(), argsBitmapFontUtil.getHeight());
+        }
         paintComponent(getGraphics());
     }
 }

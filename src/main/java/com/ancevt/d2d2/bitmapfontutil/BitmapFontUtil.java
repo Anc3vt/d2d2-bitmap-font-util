@@ -22,6 +22,7 @@ import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -52,6 +53,7 @@ public class BitmapFontUtil extends JFrame {
 
         BitmapFontUtil frame = new BitmapFontUtil(argsBitmapFontUtil);
         frame.setLocationByPlatform(true);
+        frame.setPreferredSize(new Dimension(512, 512));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         if (argsBitmapFontUtil.isGuiMode()) {
@@ -71,6 +73,7 @@ public class BitmapFontUtil extends JFrame {
                         "Яабвгдеёжзийклмнопрстуфхцчшщъыьэюя?^~`" +
                         "ҐґЇїЎў";
 
+        System.out.println(string.length() * 2);
 
         boolean bold = argsBitmapFontUtil.isBold();
         boolean italic = argsBitmapFontUtil.isItalic();
@@ -79,13 +82,7 @@ public class BitmapFontUtil extends JFrame {
 
         font = new Font(fontName, fontStyle, fontSize);
 
-        frame.getCanvas().draw(
-                string,
-                font,
-                argsBitmapFontUtil.getWidth(),
-                argsBitmapFontUtil.getHeight(),
-                BitmapFontUtil::write
-        );
+        frame.getCanvas().draw(string, font, BitmapFontUtil::write);
 
         if (!argsBitmapFontUtil.isGuiMode()) {
             System.exit(0);
