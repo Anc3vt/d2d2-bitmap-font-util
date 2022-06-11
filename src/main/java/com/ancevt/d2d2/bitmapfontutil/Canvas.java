@@ -29,7 +29,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiConsumer;
@@ -69,30 +68,37 @@ public class Canvas extends JPanel {
 
         if (argsBitmapFontUtil.isFractionalMetricsOn()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         }
 
         if (argsBitmapFontUtil.isTextAntialiasOn()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         }
 
         if (argsBitmapFontUtil.isTextAntialiasGasp()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         }
 
         if (argsBitmapFontUtil.isTextAntialiasLcdHrgb()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         }
 
         if (argsBitmapFontUtil.isTextAntialiasLcdHbgr()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR);
         }
 
         if (argsBitmapFontUtil.isTextAntialiasLcdVrgb()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB);
         }
 
         if (argsBitmapFontUtil.isTextAntialiasLcdVbgr()) {
             graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR);
         }
 
         graphics2D.setColor(Color.WHITE);
@@ -121,7 +127,7 @@ public class Canvas extends JPanel {
 
             graphics2D.setColor(Color.RED);
             graphics2D.setStroke(new BasicStroke(0.1f));
-            graphics2D.drawRect(x, y - height + toY, width, height);
+            //graphics2D.drawRect(x, y - height + toY, width, height);
 
             CharInfo charInfo = new CharInfo();
             charInfo.character = c;
@@ -132,12 +138,12 @@ public class Canvas extends JPanel {
 
             charInfos.add(charInfo);
 
-            x += width;
+            x += width + argsBitmapFontUtil.getSpacingX();
 
             if (x > maxX) maxX = x;
 
             if (x >= getWidth() - font.getSize()) {
-                y += height;
+                y += height + argsBitmapFontUtil.getSpacingY();
                 if (y > maxY) maxY = y + 5;
                 x = 0;
             }

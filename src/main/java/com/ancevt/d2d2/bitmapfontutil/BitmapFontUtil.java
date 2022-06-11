@@ -84,7 +84,6 @@ public class BitmapFontUtil extends JFrame {
 
     @SneakyThrows
     private static void write(List<CharInfo> charInfos, BufferedImage bufferedImage) {
-
         System.out.println(charInfos.size() + " " + bufferedImage);
 
         StringBuilder stringBuilder = new StringBuilder();

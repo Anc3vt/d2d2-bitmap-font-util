@@ -38,10 +38,10 @@ public class ArgsBitmapFontUtil {
     @ArgsParameter(names = {"--size", "-s"}, required = true)
     private int size;
 
-    @ArgsParameter(names = {"--bold", "-b"})
+    @ArgsParameter(names = {"--bold", "-B"})
     private boolean bold;
 
-    @ArgsParameter(names = {"--italic", "-i"})
+    @ArgsParameter(names = {"--italic", "-I"})
     private boolean italic;
 
     @ArgsParameter(names = "--text-antialias-on")
@@ -67,4 +67,10 @@ public class ArgsBitmapFontUtil {
 
     @ArgsParameter(names = {"--stay-on-screen", "-S"})
     private boolean stayOnScreen;
+
+    @ArgsParameter(names = {"--spacing-x", "-sx"})
+    private int spacingX;
+
+    @ArgsParameter(names = {"--spacing-y", "-sy"})
+    private int spacingY;
 }
